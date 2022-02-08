@@ -1,30 +1,24 @@
-import getUsers from './Users/get_users.js';
-import getUser from './Users/get_user.js';
-import getTodos from './Todos/get_todos.js';
-
-import login from './auth/login.js';
-import register from './auth/register.js';
-
-import createTodo from './Todos/create_todo.js';
-import getTodo from './Todos/get_todo.js';
-import toggleCompleted from './Todos/toggle_completed.js';
-import updateTodo from './Todos/update_todo.js';
-import deleteTodo from './Todos/delete_todo.js';
+import { register, login } from "./auth/index.js"
+import { getUser, getUsers } from "./User/index.js"
+import { getTransactions, createTransaction } from "./Transaction/index.js"
+import { getAccounts, createAccount } from "./Account/index.js"
 
 const resolvers = {
+  TransactionType: {
+    DEBIT: "debit",
+    CREDIT: "credit"
+  },
   Query: {
     getUsers,
     getUser,
-    getTodos,
-    getTodo,
+    getTransactions,
+    getAccounts
   },
   Mutation: {
     register,
     login,
-    createTodo,
-    toggleCompleted,
-    updateTodo,
-    deleteTodo,
+    createTransaction,
+    createAccount,
   }
 };
 

@@ -1,7 +1,5 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
-import http from 'http';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,24 +11,27 @@ async function startServer() {
   const app = express();
   app.use(cors());
 
-  const httpServer = http.createServer(app);
-
   dotenv.config();
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => ({ req }),
   });
 
   await server.start();
 
+  const MONGO_DB = process.env.MONGO_DB;
+  const MONGO_USER = process.env.MONGO_USER;
+  const MONGO_PASS = process.env.MONGO_PASS;
+  const MONGO_URI = process.env.MONGO_URI;
+
+  const CONN = `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@${MONGO_URI}/${MONGO_DB}?retryWrites=true&w=majority`
   server.applyMiddleware({ app });
 
   try {
     console.info(`Connecting to MongoDB... `);
-    await mongoose.connect(process.env.MONGO_DB);
+    await mongoose.connect(CONN);
     console.info(`Connected to MongoDB.`);
   } catch (error) {
     console.error(error);

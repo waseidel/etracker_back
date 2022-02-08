@@ -11,4 +11,15 @@ const getUser = async (_, args, context) => {
   return user;
 }
 
-export default getUser;
+const getUsers = async (_, __, context) => {
+  if (!isLogged(context)) {
+    return new AuthenticationError('You must be logged in to do that');
+  }
+  const users = await User.find({});
+  return users;
+}
+
+export {
+  getUser,
+  getUsers
+}
