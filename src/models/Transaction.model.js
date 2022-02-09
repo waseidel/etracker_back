@@ -24,11 +24,16 @@ const TransactionSchema = new Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: "Category",
-    required: true
+    required: true,
   },
   account: {
     type: Schema.Types.ObjectId,
     ref: "Account",
+    required: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true
   },
 }, {

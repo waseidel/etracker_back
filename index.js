@@ -21,17 +21,22 @@ async function startServer() {
 
   await server.start();
 
-  const MONGO_DB = process.env.MONGO_DB;
-  const MONGO_USER = process.env.MONGO_USER;
-  const MONGO_PASS = process.env.MONGO_PASS;
-  const MONGO_URI = process.env.MONGO_URI;
+  const MONGODB_USERNAME = process.env.MONGODB_USERNAME;
+  const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD
+  const MONGODB_HOST = process.env.MONGODB_HOST
+  const MONGODB_DATABASE = process.env.MONGODB_DATABASE
+  const MONGODB_SERVERNAME = `${MONGODB_DATABASE}?retryWrites=true&w=majority`
 
-  const CONN = `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@${MONGO_URI}/${MONGO_DB}?retryWrites=true&w=majority`
+  const MONGODB_URI = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}/${MONGODB_SERVERNAME}`
+
   server.applyMiddleware({ app });
 
   try {
     console.info(`Connecting to MongoDB... `);
-    await mongoose.connect(CONN);
+    mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.info(`Connected to MongoDB.`);
   } catch (error) {
     console.error(error);
@@ -40,7 +45,7 @@ async function startServer() {
   const PORT = process.env.PORT || 4000;
 
   app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+    console.info(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
   );
 }
 

@@ -2,6 +2,8 @@ import { AuthenticationError } from "apollo-server-core";
 
 import Category from "../../models/Category.model.js";
 
+import isLogged from "../../helpers/auth/isLogged.js";
+
 const getCategories = async (_, __, context) => {
   if (!isLogged(context)) {
     throw new AuthenticationError("You must be logged in to perform this action");
@@ -10,16 +12,18 @@ const getCategories = async (_, __, context) => {
   return categories;
 };
 
-const createCategories = async (_, args, context) => {
+const createCategory = async (_, { input }, context) => {
   if (!isLogged(context)) {
     throw new AuthenticationError('You must be logged in to perform this action');
   }
 
-  const category = new Category({ args });
-  return await category.save();
+  const category = new Category({ ...input });
+  console.log({ ...input });
+  const savedCategory = await category.save();
+  return savedCategory;
 };
 
 export {
   getCategories,
-  createCategories
+  createCategory
 };

@@ -1,12 +1,15 @@
 import { gql } from 'apollo-server-express';
 
 const accountTypeDefs = gql`
+  scalar Date
   type Account {
-    id: ID!
+    id: ID
     name: String!
     description: String
-    createdAt: String
-    updatedAt: String
+    image: String
+    balance: Float
+    createdAt: Date
+    updatedAt: Date 
   }
 
   extend type Query {
@@ -15,9 +18,9 @@ const accountTypeDefs = gql`
   }
 
   extend type Mutation {
-    createAccount(name: String!, description: String): Account
-    updateAccount(id: ID!, name: String, description: String): Account
-    deleteAccount(id: ID!): Account
+    createAccount(name: String!, description: String, balance: Float, image: String): Account!
+    updateAccount(id: ID!, name: String, description: String, balance: Float, image: String): Account!
+    deleteAccount(id: ID!): String!
   }
 `;
 

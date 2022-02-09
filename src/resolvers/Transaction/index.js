@@ -8,8 +8,7 @@ const createTransaction = async (_, args, context) => {
   if (!isLogged(context)) {
     throw new AuthenticationError("You must be logged in to do that.");
   }
-  console.log(args)
-  const user = getUser(context);
+  const user = await getUser(context);
   const transaction = new Transaction({
     ...args,
     user: user.id
@@ -19,14 +18,18 @@ const createTransaction = async (_, args, context) => {
 
 const getTransactions = async (_, __, context) => {
   if (!isLogged(context)) {
-    throw new AuthenticatorResponse(
+    throw new AuthenticationError(
       'You must be logged to access this resource',
       401
     );
   }
 
-  const user = getUser(context);
-  const transactions = await Transaction.find({ user: user.id });
+  const user = await getUser(context);
+  const transactions = await Transaction.find({ user: user.id })
+    .populate("user")
+    .populate("category")
+    .populate("account");
+
   return transactions;
 };
 

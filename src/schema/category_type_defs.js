@@ -1,21 +1,24 @@
 import { gql } from 'apollo-server-express';
 
 const categoryTypeDefs = gql`
+  scalar Date
+  
   type Category {
-    id: ID!
+    id: ID
     name: String!
     description: String
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date
+    updatedAt: Date
   }
 
   input CategoryInput {
     name: String!
-    description: String
+    image: String
+    description: String!
   }
 
   extend type Query {
-    categories: [Category!]!
+    getCategories: [Category!]!
     category(id: ID!): Category
   }
 

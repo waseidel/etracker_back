@@ -4,16 +4,16 @@ const userTypeDefs = gql`
   scalar Date
 
   type User {
-    id: ID!
-    name: String!
-    email: String!
+    id: ID
+    name: String
+    email: String
     createdAt: Date
     updatedAt: Date
   }
 
   type TokenizedUser {
-    token: String
-    user: User
+    token: String!
+    user: User!
   }
 
   type Query {

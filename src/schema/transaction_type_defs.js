@@ -1,14 +1,17 @@
 import { gql } from 'apollo-server-express';
 
 const transactionTypeDefs = gql`
+  scalar Date
   type Transaction {
     id: ID!
     description: String
-    value: Float!
-    user: User!
-    type: TransactionType!
-    createdAt: String
-    updatedAt: String
+    value: Float
+    user: User
+    type: TransactionType
+    account: Account
+    category: Category
+    createdAt: Date
+    updatedAt: Date
   }
   
   enum TransactionType {

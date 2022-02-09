@@ -7,14 +7,19 @@ const AccountSchema = new Schema({
     type: String,
     required: true,
   },
-  email: {
+  description: {
     type: String,
     required: true,
   },
-  password: {
-    type: String,
+  balance: {
+    type: Number,
     required: true,
-  }
+  },
+  image: {
+    type: String,
+    required: false,
+  },
+
 }, {
   timestamps: true,
 });
